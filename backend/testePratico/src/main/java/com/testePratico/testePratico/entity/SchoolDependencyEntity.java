@@ -1,21 +1,28 @@
 package com.testePratico.testePratico.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.Instant;
 
 @Entity
 @Table(name= "tb_school_dependency")
+@Data
+@EqualsAndHashCode(callSuper = false)
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
+@Builder
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class SchoolDependencyEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long schoolDependencyId;
+    @Column(name = "school_dependency_id")
+    private Long id;
 
     private String name;
     private Integer quantity;
@@ -23,4 +30,10 @@ public class SchoolDependencyEntity {
     @ManyToOne
     @JoinColumn(name = "school_id")
     private SchoolEntity school;
+
+    @CreationTimestamp
+    private Instant creationTimestamp;
+
+    @UpdateTimestamp
+    private Instant updateTimestamp;
 }

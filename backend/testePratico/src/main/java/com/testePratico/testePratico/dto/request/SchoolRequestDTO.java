@@ -1,9 +1,11 @@
-package com.testePratico.testePratico.dtos.request;
+package com.testePratico.testePratico.dto.request;
 
 import com.testePratico.testePratico.entity.SchoolEntity;
-import lombok.Getter;
+import lombok.*;
 
-@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 public class SchoolRequestDTO {
     private Long id;
     private String name;
@@ -15,8 +17,4 @@ public class SchoolRequestDTO {
     private Integer type;
     private String typeDescription;
     private String schoolStatus;
-
-    public SchoolEntity converterDtoToEntity(SchoolRequestDTO dto){
-
-        }
 }
