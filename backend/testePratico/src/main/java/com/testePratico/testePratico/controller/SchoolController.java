@@ -20,28 +20,25 @@ public class SchoolController {
     @Operation(summary = "Buscar escola")
     @GetMapping
     public ResponseEntity<SchoolResponseDTO> getSchoolById(@RequestParam Long id) {
-        SchoolResponseDTO found = schoolService.getSchoolById(id);
-        return ResponseEntity.ok(found);
+        return ResponseEntity.ok(schoolService.getSchoolById(id));
     }
 
     @Operation(summary = "Criar escola")
     @PostMapping
-    public ResponseEntity<SchoolResponseDTO> createSchool(@RequestBody SchoolRequestDTO dto) {
-        SchoolResponseDTO created = schoolService.createSchool(dto);
-        return ResponseEntity.ok(created);
+    public ResponseEntity<SchoolResponseDTO> create(@RequestBody SchoolRequestDTO dto) {
+        return ResponseEntity.ok(schoolService.create(dto));
     }
 
     @Operation(summary = "Atualizar escola")
     @PutMapping
-    public ResponseEntity<SchoolResponseDTO> updateSchool(@RequestBody SchoolRequestDTO dto) {
-        SchoolResponseDTO updated = schoolService.updateSchool(dto);
-        return ResponseEntity.ok(updated);
+    public ResponseEntity<SchoolResponseDTO> update(@RequestBody SchoolRequestDTO dto) {
+        return ResponseEntity.ok(schoolService.update(dto));
     }
 
     @Operation(summary = "Deletar escola")
     @DeleteMapping
-    public ResponseEntity<Void> deleteSchool(@RequestParam Long id) {
-        schoolService.deleteSchool(id);
+    public ResponseEntity<Void> delete(@RequestParam Long id) {
+        schoolService.delete(id);
         return ResponseEntity.noContent().build();
     }
 }

@@ -17,5 +17,5 @@ public class SchoolResponseDTO {
     private String code;
     private Integer type;
     private String typeDescription;
-    private String schoolStatus;
+    private Integer schoolStatus;
 }

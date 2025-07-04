@@ -1,4 +1,4 @@
-package com.testePratico.testePratico.dto.request;
+package com.testePratico.testePratico.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,8 +7,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class SchoolDependencyRequestDTO {
+public class SchoolDependencyResponseDTO {
+    private Long id;
     private String name;
     private Integer quantity;
-    private Long schoolId;
+    private SchoolResponseDTO school;
 }

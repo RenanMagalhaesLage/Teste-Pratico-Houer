@@ -1,20 +1,15 @@
 package com.testePratico.testePratico.dto.request;
 
-import com.testePratico.testePratico.entity.SchoolEntity;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class SchoolRequestDTO {
+public class SchoolDependencyRequestDTO {
     private Long id;
     private String name;
-    private String schoolNetwork;
-    private String educationBoard;
-    private String city;
-    private String district;
-    private String code;
-    private Integer type;
-    private String typeDescription;
-    private String schoolStatus;
+    private Integer quantity;
+    private Long schoolId;
 }

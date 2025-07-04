@@ -46,7 +46,7 @@ public class SchoolEntity {
     private String typeDescription;
 
     @Column(name = "school_status")
-    private String schoolStatus;
+    private Integer schoolStatus;
 
     @CreationTimestamp
     private Instant creationTimestamp;

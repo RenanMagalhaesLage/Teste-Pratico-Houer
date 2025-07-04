@@ -23,15 +23,15 @@ public class SchoolService {
         return converterEntityToDto(entity);
     }
 
-    public SchoolResponseDTO createSchool(SchoolRequestDTO dto) {
+    public SchoolResponseDTO create(SchoolRequestDTO dto) {
         SchoolEntity schoolEntity = converterDtoToEntity(dto);
         SchoolEntity saved = schoolRepository.save(schoolEntity);
-        log.info("School created successfully: id={}, name={}", saved.getId(), saved.getName());
+        log.info("School created: id={}, name={}", saved.getId(), saved.getName());
 
         return converterEntityToDto(saved);
     }
 
-    public SchoolResponseDTO updateSchool(SchoolRequestDTO dto) {
+    public SchoolResponseDTO update(SchoolRequestDTO dto) {
         if (!schoolRepository.existsById(dto.getId())) {
             throw new RuntimeException("School with id " + dto.getId() + " not found");
         }
@@ -39,16 +39,18 @@ public class SchoolService {
         schoolEntity.setId(dto.getId());
 
         SchoolEntity updated = schoolRepository.save(schoolEntity);
-        log.info("School updated successfully: id={}, name={}", updated.getId(), updated.getName());
+        log.info("School updated: id={}, name={}", updated.getId(), updated.getName());
         return converterEntityToDto(updated);
     }
 
-    public void deleteSchool(Long id) {
+    public void delete(Long id) {
         if (!schoolRepository.existsById(id)) {
             throw new RuntimeException("School with id " + id + " not found");
         }
+
+        //Deletar as dependencias
         schoolRepository.deleteById(id);
-        log.info("School deleted successfully: id={}", id);
+        log.info("School deleted: id={}", id);
     }
 
     public SchoolEntity converterDtoToEntity(SchoolRequestDTO dto){
@@ -66,7 +68,7 @@ public class SchoolService {
         return schoolEntity;
     }
 
-    public static SchoolResponseDTO converterEntityToDto(SchoolEntity entity) {
+    public SchoolResponseDTO converterEntityToDto(SchoolEntity entity) {
         SchoolResponseDTO dto = new SchoolResponseDTO();
         dto.setId(entity.getId());
         dto.setName(entity.getName());
