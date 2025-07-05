@@ -1,4 +1,4 @@
-package com.testePratico.testePratico.dto.request;
+package com.testePratico.testePratico.domain.dto.request;
 
 import lombok.*;
 

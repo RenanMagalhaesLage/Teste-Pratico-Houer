@@ -1,10 +1,10 @@
 package com.testePratico.testePratico.service;
 
-import com.testePratico.testePratico.dto.request.SchoolRequestDTO;
-import com.testePratico.testePratico.dto.response.SchoolResponseDTO;
-import com.testePratico.testePratico.entity.SchoolDependencyEntity;
-import com.testePratico.testePratico.entity.SchoolEntity;
-import com.testePratico.testePratico.entity.SchoolTypeEntity;
+import com.testePratico.testePratico.domain.dto.request.SchoolRequestDTO;
+import com.testePratico.testePratico.domain.dto.response.SchoolResponseDTO;
+import com.testePratico.testePratico.domain.entity.SchoolDependencyEntity;
+import com.testePratico.testePratico.domain.entity.SchoolEntity;
+import com.testePratico.testePratico.domain.entity.SchoolTypeEntity;
 import com.testePratico.testePratico.repository.SchoolDependencyRepository;
 import com.testePratico.testePratico.repository.SchoolRepository;
 import com.testePratico.testePratico.repository.SchoolTypeRepository;

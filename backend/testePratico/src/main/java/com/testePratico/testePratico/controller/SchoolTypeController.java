@@ -1,9 +1,6 @@
 package com.testePratico.testePratico.controller;
 
-import com.testePratico.testePratico.dto.request.SchoolRequestDTO;
-import com.testePratico.testePratico.dto.response.SchoolResponseDTO;
-import com.testePratico.testePratico.entity.SchoolTypeEntity;
-import com.testePratico.testePratico.service.SchoolService;
+import com.testePratico.testePratico.domain.entity.SchoolTypeEntity;
 import com.testePratico.testePratico.service.SchoolTypeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

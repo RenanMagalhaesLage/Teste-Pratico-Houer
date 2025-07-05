@@ -1,9 +1,9 @@
 package com.testePratico.testePratico.service;
 
-import com.testePratico.testePratico.dto.request.SchoolDependencyRequestDTO;
-import com.testePratico.testePratico.dto.response.SchoolDependencyResponseDTO;
-import com.testePratico.testePratico.entity.SchoolDependencyEntity;
-import com.testePratico.testePratico.entity.SchoolEntity;
+import com.testePratico.testePratico.domain.dto.request.SchoolDependencyRequestDTO;
+import com.testePratico.testePratico.domain.dto.response.SchoolDependencyResponseDTO;
+import com.testePratico.testePratico.domain.entity.SchoolDependencyEntity;
+import com.testePratico.testePratico.domain.entity.SchoolEntity;
 import com.testePratico.testePratico.repository.SchoolDependencyRepository;
 import com.testePratico.testePratico.repository.SchoolRepository;
 import lombok.extern.slf4j.Slf4j;

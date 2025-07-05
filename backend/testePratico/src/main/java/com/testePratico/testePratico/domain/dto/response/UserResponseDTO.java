@@ -1,4 +1,4 @@
-package com.testePratico.testePratico.dto.response;
+package com.testePratico.testePratico.domain.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

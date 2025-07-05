@@ -1,5 +1,6 @@
-package com.testePratico.testePratico.entity;
+package com.testePratico.testePratico.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
@@ -10,7 +11,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.time.Instant;
 
 @Entity
-@Table(name= "tb_users")
+@Table(name= "tb_school_type")
 @Data
 @EqualsAndHashCode(callSuper = false)
 @AllArgsConstructor
@@ -18,21 +19,20 @@ import java.time.Instant;
 @Builder
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class UserEntity {
+public class SchoolTypeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
+    @Column(name = "school_type_id")
     private Long id;
 
-    private String username;
+    @Column(name = "school_type_description")
+    private String description;
 
-    private String email;
-
-    private String password;
-
+    @JsonIgnore
     @CreationTimestamp
     private Instant creationTimestamp;
 
+    @JsonIgnore
     @UpdateTimestamp
     private Instant updateTimestamp;
 }

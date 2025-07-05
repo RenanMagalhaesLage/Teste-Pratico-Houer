@@ -1,20 +1,12 @@
 package com.testePratico.testePratico.service;
 
-import com.testePratico.testePratico.dto.request.SchoolRequestDTO;
-import com.testePratico.testePratico.dto.response.SchoolResponseDTO;
-import com.testePratico.testePratico.entity.SchoolDependencyEntity;
-import com.testePratico.testePratico.entity.SchoolEntity;
-import com.testePratico.testePratico.entity.SchoolTypeEntity;
-import com.testePratico.testePratico.repository.SchoolDependencyRepository;
-import com.testePratico.testePratico.repository.SchoolRepository;
+import com.testePratico.testePratico.domain.entity.SchoolTypeEntity;
 import com.testePratico.testePratico.repository.SchoolTypeRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Slf4j

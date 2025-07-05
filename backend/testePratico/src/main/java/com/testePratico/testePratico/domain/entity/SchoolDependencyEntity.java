@@ -1,4 +1,4 @@
-package com.testePratico.testePratico.entity;
+package com.testePratico.testePratico.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;

@@ -1,6 +1,6 @@
-package com.testePratico.testePratico.dto.response;
+package com.testePratico.testePratico.domain.dto.response;
 
-import com.testePratico.testePratico.entity.SchoolTypeEntity;
+import com.testePratico.testePratico.domain.entity.SchoolTypeEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

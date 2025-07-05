@@ -1,7 +1,7 @@
 package com.testePratico.testePratico.repository;
 
-import com.testePratico.testePratico.entity.SchoolDependencyEntity;
-import com.testePratico.testePratico.entity.SchoolEntity;
+import com.testePratico.testePratico.domain.entity.SchoolDependencyEntity;
+import com.testePratico.testePratico.domain.entity.SchoolEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

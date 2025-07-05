@@ -1,4 +1,4 @@
-package com.testePratico.testePratico.config;
+package com.testePratico.testePratico.infra.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
