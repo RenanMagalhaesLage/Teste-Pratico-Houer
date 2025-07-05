@@ -1,6 +1,5 @@
 package com.testePratico.testePratico.dto.request;
 
-import com.testePratico.testePratico.entity.SchoolEntity;
 import lombok.*;
 
 @AllArgsConstructor

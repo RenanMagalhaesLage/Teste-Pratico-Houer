@@ -2,7 +2,6 @@ package com.testePratico.testePratico.service;
 
 import com.testePratico.testePratico.dto.request.SchoolDependencyRequestDTO;
 import com.testePratico.testePratico.dto.response.SchoolDependencyResponseDTO;
-import com.testePratico.testePratico.dto.response.SchoolResponseDTO;
 import com.testePratico.testePratico.entity.SchoolDependencyEntity;
 import com.testePratico.testePratico.entity.SchoolEntity;
 import com.testePratico.testePratico.repository.SchoolDependencyRepository;
