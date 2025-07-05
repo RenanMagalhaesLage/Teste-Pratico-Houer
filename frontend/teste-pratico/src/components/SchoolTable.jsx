@@ -99,19 +99,19 @@ export default function SchoolTable({data}) {
           <TableBody>
             {paginatedData.map((row, index) => (
               <TableRow key={index} hover>
-                <TableCell>{row.redeEnsino}</TableCell>
-                <TableCell>{row.diretoria}</TableCell>
-                <TableCell>{row.municipio}</TableCell>
-                <TableCell>{row.distrito}</TableCell>
-                <TableCell>{row.codigo}</TableCell>
-                <TableCell>{row.nomeEscola}</TableCell>
-                <TableCell>{row.tipoEscola}</TableCell>
-                <TableCell>{row.situacaoEscola}</TableCell>
+                <TableCell>{row.schoolNetwork}</TableCell>
+                <TableCell>{row.educationBoard}</TableCell>
+                <TableCell>{row.city}</TableCell>
+                <TableCell>{row.district}</TableCell>
+                <TableCell>{row.code}</TableCell>
+                <TableCell>{row.name}</TableCell>
+                <TableCell>{row.type.description}</TableCell>
+                <TableCell>{row.schoolStatus}</TableCell>
                 <TableCell align="center">
-                  <IconButton color="primary" aria-label="visualizar" onClick={() => handleView(row.codigo)}>
+                  <IconButton color="primary" aria-label="visualizar" onClick={() => handleView(row.id)}>
                     <VisibilityIcon />
                   </IconButton>
-                  <IconButton color="warning" aria-label="editar" onClick={() => handleEdit(row.codigo)}>
+                  <IconButton color="warning" aria-label="editar" onClick={() => handleEdit(row.id)}>
                     <EditIcon />
                   </IconButton>
                   <IconButton
