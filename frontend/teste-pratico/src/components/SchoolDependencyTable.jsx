@@ -41,12 +41,6 @@ export default function SchoolDependencyTable({data}) {
     navigate(`/dependencia/editar/${id}`);
   };
 
-  const handleDelete = (id) => {
-    console.log("Item deletado! ", id);
-    setOpenModal(false);
-    // Aqui você pode chamar sua API ou lógica para deletar
-  };
-
   return (
     <Box sx={{ maxWidth: 1200, margin: 'auto', mt: 4 }}>
       <Box sx={{ 
@@ -93,7 +87,7 @@ export default function SchoolDependencyTable({data}) {
                 <TableCell>{row.name}</TableCell>
                 <TableCell>{row.quantity}</TableCell>
                 <TableCell align="center">
-                  <IconButton color="warning" aria-label="editar" onClick={() => handleEdit(row.nome)}>
+                  <IconButton color="warning" aria-label="editar" onClick={() => handleEdit(row.id)}>
                     <EditIcon />
                   </IconButton>
                   <IconButton
@@ -108,12 +102,11 @@ export default function SchoolDependencyTable({data}) {
                     open={Boolean(itemToDelete)}
                     onClose={() => setItemToDelete(null)}
                     onConfirm={() => {
-                      handleDelete(itemToDelete.codigo);
                       setItemToDelete(null);
                     }}
-                    itemName={itemToDelete.nome}
+                    itemName={itemToDelete.name}
                     itemType={"Dependência"}
-                    itemId={id}
+                    itemId={itemToDelete.id}
                   />
                 )}
                 </TableCell>
