@@ -66,10 +66,11 @@ public class CsvService {
 
                 List<SchoolDependencyEntity>  schoolDependencyEntityList = new ArrayList<>();
                 int totalColumns = data.length;
-                int startIndex = totalColumns - 10;
+                int startIndex = 10;
 
                 for (int i = startIndex; i < totalColumns; i++) {
-                    String depName = headers[i].trim();
+                    String rawHeader = headers[i].trim();
+                    String depName = capitalizeFirstLetter(rawHeader.replace("_", " "));
                     Integer quantity = tryParseInt(data[i]);
 
                     SchoolDependencyEntity dependencyEntity = SchoolDependencyEntity.builder()
@@ -101,5 +102,13 @@ public class CsvService {
             log.warn("Invalid Integer value: " + value);
             return null;
         }
+    }
+
+    private String capitalizeFirstLetter(String input) {
+        if (input == null || input.isEmpty()) {
+            return input;
+        }
+        input = input.toLowerCase();
+        return input.substring(0, 1).toUpperCase() + input.substring(1);
     }
 }
