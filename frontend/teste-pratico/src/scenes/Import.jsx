@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import {
   Container,
   Typography,
@@ -13,11 +15,14 @@ import {
 } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import DescriptionIcon from '@mui/icons-material/Description';
+import ClipLoader from "react-spinners/ClipLoader";
 
 export default function Import() {
   const [file, setFile] = useState(null);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
@@ -38,10 +43,33 @@ export default function Import() {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (file) {
-      console.log('Enviando:', file);
-      setSuccess('Upload realizado com sucesso!');
+      const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+      setLoading(true);     
+      setSuccess('');
+      setError('');
+
+      const response = await axios.post('http://localhost:8080/upload-csv', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+
+      setSuccess('Upload do arquivo CSV realizado com sucesso!');
+      console.log('Resposta do servidor:', response.data);
+    } catch (err) {
+      setError('Erro ao enviar o arquivo.');
+      console.error(err);
+    } finally {
+      setLoading(false);
+      navigate('/home', {
+        state: { successMessage: 'Arquivo CSV importado com sucesso!' }
+      });
+    }
     }
   };
 
@@ -87,12 +115,21 @@ export default function Import() {
             variant="contained"
             color="primary"
             onClick={handleSubmit}
-            disabled={!file}
+            disabled={!file || loading}
           >
-            Enviar
+            {loading ? 'Enviando...' : 'Enviar'}
+            {loading && (
+              <ClipLoader
+                color="#1976d2" 
+                loading={loading}
+                size={20}
+                aria-label="Loading Spinner"
+              />
+            )}
           </Button>
         </CardActions>
       </Card>
+      
     </Container>
   );
 }

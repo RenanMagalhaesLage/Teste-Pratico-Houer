@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
-@RequestMapping("/csv")
+@RequestMapping("/upload-csv")
 @Tag(name = "CSV", description = "Endpoints para gerenciamento de CSVs")
 public class CsvController {
 
