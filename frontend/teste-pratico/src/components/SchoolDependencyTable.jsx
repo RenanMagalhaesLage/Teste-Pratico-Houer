@@ -71,7 +71,7 @@ export default function SchoolDependencyTable({data}) {
           variant="contained"
           startIcon={<AddIcon />}
           sx={{ textTransform: 'none', fontWeight: 'bold' }}
-          onClick={() => navigate('/dependencia/adicionar')}
+          onClick={() => navigate(`/dependencia/adicionar/${id}`)}
         >
           Adicionar Dependência
         </Button>

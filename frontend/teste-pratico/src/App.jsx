@@ -29,7 +29,7 @@ function App() {
           <Route path="/escola/adicionar" element={<AddSchool/>} />
           <Route path="/escola/editar/:id" element={<EditSchool/>} />
           <Route path="/importar" element={<Import />} />
-          <Route path="/dependencia/adicionar" element={<AddDependency/>} />
+          <Route path="/dependencia/adicionar/:schoolId" element={<AddDependency/>} />
           <Route path="/dependencia/editar/:id" element={<EditDependency/>} />
         </Routes>
       </Router>
