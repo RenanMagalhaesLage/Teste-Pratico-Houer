@@ -44,12 +44,6 @@ export default function SchoolTable({data}) {
     navigate(`/escola/editar/${id}`);
   };
 
-  const handleDelete = (id) => {
-    console.log("Item deletado! ", id);
-    setOpenModal(false);
-    // Aqui você pode chamar sua API ou lógica para deletar
-  };
-
   return (
     <Box sx={{ maxWidth: 1200, margin: 'auto', mt: 4 }}>
       <Box sx={{ 
@@ -126,12 +120,11 @@ export default function SchoolTable({data}) {
                       open={Boolean(itemToDelete)}
                       onClose={() => setItemToDelete(null)}
                       onConfirm={() => {
-                        handleDelete(itemToDelete.codigo);
                         setItemToDelete(null);
                       }}
-                      itemName={itemToDelete.nomeEscola}
+                      itemName={itemToDelete.name}
                       itemType={"Escola"}
-                      itemId={0}
+                      itemId={itemToDelete.id}
                     />
                   )}
                 </TableCell>

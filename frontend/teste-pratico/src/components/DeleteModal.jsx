@@ -12,25 +12,51 @@ import {
   Box
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
+import axios from 'axios';
 
 export default function DeleteModal({ open, onClose, onConfirm, itemName, itemType, itemId }) {
   const [showAlert, setShowAlert] = useState(false);
   const navigate = useNavigate();
-  const handleDelete = (e) => {
+  const handleDelete = async (e) => {
     e.preventDefault();
-    console.log('Exclusão feita com sucesso:');
     if(itemType === "Escola"){
-      navigate('/home', {
-        state: { successMessage: 'Escola excluida!' }
-      });
+      deleteSchool();
       onClose();
     }else {
-      navigate(`/escola/${itemId}`, {
-        state: { successMessage: 'Dependência excluida!' }
-      });
+      deleteSchoolDependency();
       onClose();
     }
+    setOpenModal(false);
   };
+
+  const deleteSchool = async () => {
+    await axios.delete("http://localhost:8080/schools",{
+      params: {
+        id: itemId
+      }
+    })
+    .then(response => {
+      window.location.reload();
+    })
+    .catch(error => {
+      console.error("Erro:", error);
+    });
+  };
+
+  const deleteSchoolDependency = async () => {
+    await axios.delete("http://localhost:8080/school-dependencies",{
+      params: {
+        id: itemId
+      }
+    })
+    .then(response => {
+      window.location.reload();
+    })
+    .catch(error => {
+      console.error("Erro:", error);
+    });
+  }
+
   return (
     <Dialog
       open={open}
