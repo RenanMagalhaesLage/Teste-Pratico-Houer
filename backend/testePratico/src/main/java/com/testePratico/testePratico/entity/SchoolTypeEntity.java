@@ -1,17 +1,17 @@
 package com.testePratico.testePratico.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import lombok.*;
-import lombok.experimental.Accessors;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.Instant;
 
 @Entity
-@Table(name= "tb_school")
+@Table(name= "tb_school_type")
 @Data
 @EqualsAndHashCode(callSuper = false)
 @AllArgsConstructor
@@ -19,37 +19,20 @@ import java.time.Instant;
 @Builder
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class SchoolEntity {
-
+public class SchoolTypeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "school_id")
+    @Column(name = "school_type_id")
     private Long id;
 
-    private String name;
+    @Column(name = "school_type_description")
+    private String description;
 
-    @Column(name = "school_network")
-    private String schoolNetwork;
-
-    @Column(name = "education_board")
-    private String educationBoard;
-
-    private String city;
-
-    private String district;
-
-    private String code;
-
-    @ManyToOne
-    @JoinColumn(name = "school_type_id")
-    private SchoolTypeEntity type;
-
-    @Column(name = "school_status")
-    private String schoolStatus;
-
+    @JsonIgnore
     @CreationTimestamp
     private Instant creationTimestamp;
 
+    @JsonIgnore
     @UpdateTimestamp
     private Instant updateTimestamp;
 }

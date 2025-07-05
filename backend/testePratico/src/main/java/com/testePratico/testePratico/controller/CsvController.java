@@ -4,6 +4,7 @@ package com.testePratico.testePratico.controller;
 import com.testePratico.testePratico.service.CsvService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,7 +18,7 @@ public class CsvController {
 
     @Autowired
     private CsvService csvService;
-    @PostMapping
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public String uploadCSV(@RequestParam("file") MultipartFile file) {
         return csvService.uploadCSV(file);
     }

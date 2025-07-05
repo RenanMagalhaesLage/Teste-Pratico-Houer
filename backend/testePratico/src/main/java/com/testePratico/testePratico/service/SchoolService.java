@@ -2,11 +2,19 @@ package com.testePratico.testePratico.service;
 
 import com.testePratico.testePratico.dto.request.SchoolRequestDTO;
 import com.testePratico.testePratico.dto.response.SchoolResponseDTO;
+import com.testePratico.testePratico.entity.SchoolDependencyEntity;
 import com.testePratico.testePratico.entity.SchoolEntity;
+import com.testePratico.testePratico.entity.SchoolTypeEntity;
+import com.testePratico.testePratico.repository.SchoolDependencyRepository;
 import com.testePratico.testePratico.repository.SchoolRepository;
+import com.testePratico.testePratico.repository.SchoolTypeRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -14,17 +22,34 @@ public class SchoolService {
 
     @Autowired
     private SchoolRepository schoolRepository;
+    @Autowired
+    private SchoolDependencyRepository schoolDependencyRepository;
+    @Autowired
+    private SchoolTypeRepository schoolTypeRepository;
 
     public SchoolResponseDTO getSchoolById(Long id) {
-        SchoolEntity entity = schoolRepository.findById(id)
+        SchoolEntity schoolEntity = schoolRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("School with id " + id + " not found"));
 
-        log.info("School found: id={}, name={}", entity.getId(), entity.getName());
-        return converterEntityToDto(entity);
+        log.info("School found: id={}, name={}", schoolEntity.getId(), schoolEntity.getName());
+        return converterEntityToDto(schoolEntity);
+    }
+
+    public List<SchoolResponseDTO> getAllSchools() {
+        List<SchoolEntity> schoolEntityList = schoolRepository.findAll();
+
+        List<SchoolResponseDTO> dtos = new ArrayList<>();
+        for (SchoolEntity schoolEntity : schoolEntityList){
+            dtos.add(converterEntityToDto(schoolEntity));
+        }
+        return dtos;
     }
 
     public SchoolResponseDTO create(SchoolRequestDTO dto) {
-        SchoolEntity schoolEntity = converterDtoToEntity(dto);
+        Optional<SchoolTypeEntity> schoolTypeOpt = schoolTypeRepository.findByDescription(dto.getType());
+        SchoolTypeEntity schoolTypeEntity = schoolTypeOpt.orElseGet(() -> schoolTypeRepository.saveAndFlush(SchoolTypeEntity.builder().description(dto.getType()).build()));
+
+        SchoolEntity schoolEntity = converterDtoToEntity(dto, schoolTypeEntity);
         SchoolEntity saved = schoolRepository.save(schoolEntity);
         log.info("School created: id={}, name={}", saved.getId(), saved.getName());
 
@@ -35,7 +60,10 @@ public class SchoolService {
         if (!schoolRepository.existsById(dto.getId())) {
             throw new RuntimeException("School with id " + dto.getId() + " not found");
         }
-        SchoolEntity schoolEntity = converterDtoToEntity(dto);
+        Optional<SchoolTypeEntity> schoolTypeOpt = schoolTypeRepository.findByDescription(dto.getType());
+        SchoolTypeEntity schoolTypeEntity = schoolTypeOpt.orElseGet(() -> schoolTypeRepository.saveAndFlush(SchoolTypeEntity.builder().description(dto.getType()).build()));
+
+        SchoolEntity schoolEntity = converterDtoToEntity(dto, schoolTypeEntity);
         schoolEntity.setId(dto.getId());
 
         SchoolEntity updated = schoolRepository.save(schoolEntity);
@@ -48,12 +76,18 @@ public class SchoolService {
             throw new RuntimeException("School with id " + id + " not found");
         }
 
-        //Deletar as dependencias
+        SchoolEntity schoolEntity = schoolRepository.findById(id).orElse(null);
+        List<SchoolDependencyEntity> schoolDependencyEntityList = schoolDependencyRepository.findAllBySchool(schoolEntity);
+
+        for(SchoolDependencyEntity schoolDependencyEntity :  schoolDependencyEntityList){
+            schoolDependencyRepository.deleteById(schoolDependencyEntity.getId());
+        }
+
         schoolRepository.deleteById(id);
         log.info("School deleted: id={}", id);
     }
 
-    public SchoolEntity converterDtoToEntity(SchoolRequestDTO dto){
+    public SchoolEntity converterDtoToEntity(SchoolRequestDTO dto, SchoolTypeEntity schoolTypeEntity){
         SchoolEntity schoolEntity = new SchoolEntity();
         schoolEntity.setName(dto.getName());
         schoolEntity.setSchoolNetwork(dto.getSchoolNetwork());
@@ -61,8 +95,7 @@ public class SchoolService {
         schoolEntity.setCity(dto.getCity());
         schoolEntity.setDistrict(dto.getDistrict());
         schoolEntity.setCode(dto.getCode());
-        schoolEntity.setType(dto.getType());
-        schoolEntity.setTypeDescription(dto.getTypeDescription());
+        schoolEntity.setType(schoolTypeEntity);
         schoolEntity.setSchoolStatus(dto.getSchoolStatus());
 
         return schoolEntity;
@@ -78,7 +111,6 @@ public class SchoolService {
         dto.setDistrict(entity.getDistrict());
         dto.setCode(entity.getCode());
         dto.setType(entity.getType());
-        dto.setTypeDescription(entity.getTypeDescription());
         dto.setSchoolStatus(entity.getSchoolStatus());
 
         return dto;

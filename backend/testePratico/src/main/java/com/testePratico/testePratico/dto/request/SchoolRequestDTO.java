@@ -14,7 +14,6 @@ public class SchoolRequestDTO {
     private String city;
     private String district;
     private String code;
-    private Integer type;
-    private String typeDescription;
-    private Integer schoolStatus;
+    private String type;
+    private String schoolStatus;
 }

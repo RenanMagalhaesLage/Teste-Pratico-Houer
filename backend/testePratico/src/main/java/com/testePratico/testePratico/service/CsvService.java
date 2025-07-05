@@ -2,8 +2,10 @@ package com.testePratico.testePratico.service;
 
 import com.testePratico.testePratico.entity.SchoolDependencyEntity;
 import com.testePratico.testePratico.entity.SchoolEntity;
+import com.testePratico.testePratico.entity.SchoolTypeEntity;
 import com.testePratico.testePratico.repository.SchoolDependencyRepository;
 import com.testePratico.testePratico.repository.SchoolRepository;
+import com.testePratico.testePratico.repository.SchoolTypeRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,7 +16,9 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -23,7 +27,8 @@ public class CsvService {
 
     @Autowired
     private SchoolRepository schoolRepository;
-
+    @Autowired
+    private SchoolTypeRepository schoolTypeRepository;
     @Autowired
     private SchoolDependencyRepository schoolDependencyRepository;
 
@@ -34,23 +39,27 @@ public class CsvService {
 
         try (BufferedReader br = new BufferedReader(new InputStreamReader(file.getInputStream(), StandardCharsets.UTF_8))) {
             String line;
-            String csvSeparator = ",";
+            String csvSeparator = ";";
 
             String[] headers = br.readLine().split(csvSeparator); //armazena o cabeçalho
 
             while ((line = br.readLine()) != null) {
                 String[] data = line.split(csvSeparator);
+                System.out.println("Colunas na linha: " + data.length + " | Conteúdo: " + Arrays.toString(data));
+
+                Optional<SchoolTypeEntity> schoolTypeOpt = schoolTypeRepository.findByDescription(data[7].trim());
+                SchoolTypeEntity schoolTypeEntity = schoolTypeOpt.orElseGet(() -> schoolTypeRepository.saveAndFlush(SchoolTypeEntity.builder().description(data[7].trim()).build()));
+
 
                 SchoolEntity schoolEntity = SchoolEntity.builder()
-                        .name(data[6].trim())
-                        .schoolNetwork(data[1].trim())
-                        .educationBoard(data[2].trim())
-                        .city(data[3].trim())
-                        .district(data[4].trim())
-                        .code(data[5].trim())
-                        .type(tryParseInt(data[7].trim()))
-                        .typeDescription(data[8].trim())
-                        .schoolStatus(tryParseInt(data[9].trim()))
+                        .name(data[5].trim())
+                        .schoolNetwork(data[0].trim())
+                        .educationBoard(data[1].trim())
+                        .city(data[2].trim())
+                        .district(data[3].trim())
+                        .code(data[4].trim())
+                        .type(schoolTypeEntity)
+                        .schoolStatus(data[8].trim())
                         .build();
 
                 SchoolEntity newSchoolEntity = schoolRepository.saveAndFlush(schoolEntity);

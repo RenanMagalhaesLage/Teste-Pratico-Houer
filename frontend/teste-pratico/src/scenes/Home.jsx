@@ -2,6 +2,7 @@ import {useState, useEffect} from 'react'
 import SchoolTable from '../components/SchoolTable';
 import { useLocation } from 'react-router-dom';
 import { Alert } from '@mui/material';
+import axios from 'axios';
 
 const mockData = [
   { redeEnsino: 'Municipal', diretoria: 'Diretoria Central', municipio: 'São Paulo', distrito: 'Centro', codigo: '10001', nomeEscola: 'Escola Municipal A', tipoEscola: 'Fundamental', situacaoEscola: 'Ativa' },
@@ -26,6 +27,15 @@ export default function Home() {
   const location = useLocation();
   const [showAlert, setShowAlert] = useState(false);
   const [message, setMessage] = useState('');
+  const [schools, setSchools] = useState([]);
+
+  useEffect(() => {
+
+  });
+
+  const loadSchools = () =>{
+    const result = axios.get("")
+  }
 
   useEffect(() => {
     if (location.state?.successMessage) {

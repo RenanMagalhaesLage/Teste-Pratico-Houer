@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/schools")
 @Tag(name = "Escolas", description = "Endpoints para gerenciamento de escolas")
@@ -17,10 +19,16 @@ public class SchoolController {
     @Autowired
     private SchoolService schoolService;
 
-    @Operation(summary = "Buscar escola")
+    @Operation(summary = "Buscar escola por id")
     @GetMapping
     public ResponseEntity<SchoolResponseDTO> getSchoolById(@RequestParam Long id) {
         return ResponseEntity.ok(schoolService.getSchoolById(id));
+    }
+
+    @Operation(summary = "Buscar todas as escola")
+    @GetMapping("/all")
+    public ResponseEntity<List<SchoolResponseDTO>> getAllSchools() {
+        return ResponseEntity.ok(schoolService.getAllSchools());
     }
 
     @Operation(summary = "Criar escola")

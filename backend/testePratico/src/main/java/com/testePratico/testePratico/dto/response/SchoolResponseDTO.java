@@ -1,5 +1,6 @@
 package com.testePratico.testePratico.dto.response;
 
+import com.testePratico.testePratico.entity.SchoolTypeEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,7 +16,6 @@ public class SchoolResponseDTO {
     private String city;
     private String district;
     private String code;
-    private Integer type;
-    private String typeDescription;
-    private Integer schoolStatus;
+    private SchoolTypeEntity type;
+    private String schoolStatus;
 }

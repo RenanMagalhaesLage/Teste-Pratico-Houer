@@ -64,7 +64,7 @@ public class SchoolDependencyService {
         schoolDependencyRepository.deleteById(id);
         log.info("SchoolDependency deleted: id={}", id);
     }
-    public static SchoolDependencyEntity converterDtoToEntity(SchoolDependencyRequestDTO dto, SchoolEntity school) {
+    public SchoolDependencyEntity converterDtoToEntity(SchoolDependencyRequestDTO dto, SchoolEntity school) {
         SchoolDependencyEntity entity = new SchoolDependencyEntity();
         entity.setName(dto.getName());
         entity.setQuantity(dto.getQuantity());
