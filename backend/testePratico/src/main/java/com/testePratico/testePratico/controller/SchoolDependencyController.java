@@ -2,6 +2,7 @@ package com.testePratico.testePratico.controller;
 
 import com.testePratico.testePratico.dto.request.SchoolDependencyRequestDTO;
 import com.testePratico.testePratico.dto.response.SchoolDependencyResponseDTO;
+import com.testePratico.testePratico.dto.response.SchoolResponseDTO;
 import com.testePratico.testePratico.service.SchoolDependencyService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -17,6 +18,11 @@ public class SchoolDependencyController {
     @Autowired
     private SchoolDependencyService schoolDependencyService;
 
+    @Operation(summary = "Buscar dependência escola por id")
+    @GetMapping
+    public ResponseEntity<SchoolDependencyResponseDTO> getSchoolDependencyById(@RequestParam Long id) {
+        return ResponseEntity.ok(schoolDependencyService.getSchoolDependencyById(id));
+    }
     @Operation(summary = "Buscar dependências da escola")
     @GetMapping("/by-school")
     public ResponseEntity<List<SchoolDependencyResponseDTO>> getBySchool(@RequestParam Long schoolId) {

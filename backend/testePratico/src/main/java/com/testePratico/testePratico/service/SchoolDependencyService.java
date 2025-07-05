@@ -2,6 +2,7 @@ package com.testePratico.testePratico.service;
 
 import com.testePratico.testePratico.dto.request.SchoolDependencyRequestDTO;
 import com.testePratico.testePratico.dto.response.SchoolDependencyResponseDTO;
+import com.testePratico.testePratico.dto.response.SchoolResponseDTO;
 import com.testePratico.testePratico.entity.SchoolDependencyEntity;
 import com.testePratico.testePratico.entity.SchoolEntity;
 import com.testePratico.testePratico.repository.SchoolDependencyRepository;
@@ -23,6 +24,14 @@ public class SchoolDependencyService {
     @Autowired
     private SchoolService schoolService;
 
+    public SchoolDependencyResponseDTO getSchoolDependencyById(Long id) {
+        SchoolDependencyEntity schoolDependencyEntity = schoolDependencyRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("School Dependency with id " + id + " not found"));
+
+        log.info("School found: id={}, name={}", schoolDependencyEntity.getId(), schoolDependencyEntity.getName());
+        return converterEntityToDto(schoolDependencyEntity);
+    }
+
     public List<SchoolDependencyResponseDTO> getAllBySchoolId(Long schoolId) {
         SchoolEntity school = schoolRepository.findById(schoolId)
                 .orElseThrow(() -> new RuntimeException("School not found with id " + schoolId));
@@ -38,13 +47,13 @@ public class SchoolDependencyService {
                 .orElseThrow(() -> new RuntimeException("School with id " + dto.getSchoolId() + " not found"));
         SchoolDependencyEntity entity = converterDtoToEntity(dto, schoolEntity);
         SchoolDependencyEntity saved = schoolDependencyRepository.save(entity);
-        log.info("SchoolDependency created: id={}, name={}", saved.getId(), saved.getName());
+        log.info("School Dependency created: id={}, name={}", saved.getId(), saved.getName());
         return converterEntityToDto(saved);
     }
 
     public SchoolDependencyResponseDTO update(SchoolDependencyRequestDTO dto) {
         SchoolDependencyEntity existing = schoolDependencyRepository.findById(dto.getId())
-                .orElseThrow(() -> new RuntimeException("SchoolDependency with id " + dto.getId() + " not found"));
+                .orElseThrow(() -> new RuntimeException("School Dependency with id " + dto.getId() + " not found"));
         SchoolEntity school = schoolRepository.findById(dto.getSchoolId())
                 .orElseThrow(() -> new RuntimeException("School with id " + dto.getSchoolId() + " not found"));
 
@@ -53,7 +62,7 @@ public class SchoolDependencyService {
         existing.setSchool(school);
 
         SchoolDependencyEntity updated = schoolDependencyRepository.save(existing);
-        log.info("SchoolDependency updated: id={}, name={}", updated.getId(), updated.getName());
+        log.info("School Dependency updated: id={}, name={}", updated.getId(), updated.getName());
         return converterEntityToDto(updated);
     }
 

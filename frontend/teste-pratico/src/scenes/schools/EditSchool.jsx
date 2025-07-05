@@ -56,7 +56,6 @@ export default function EditSchool() {
       }
     })
     .then(response => {
-      console.log("Schools:", response.data);
       setSchoolType(response.data.type.description);
       setFormData(response.data);
     })
@@ -85,7 +84,6 @@ export default function EditSchool() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Escola editada:', formData);
     const dto = {
       id: id,
       name: formData.name,

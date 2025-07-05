@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import axios from 'axios';
 import {
   Container,
   TextField,
@@ -10,49 +12,61 @@ import {
   Divider,
 } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
-import { useNavigate } from 'react-router-dom';
 
 export default function EditDependency() {
+  const { id } = useParams();
   const navigate = useNavigate();
-
   const [formData, setFormData] = useState({
-    dependecyName: '',
-    quantity: '',
+    id: id,
+    name: '',
+    quantity: 0,
+    school: ''
   });
 
   useEffect(() => {
-    const fetchData = async () => {
-      const mockDependency = {
-        dependecyName: 'Laboratório de Informática',
-        quantity: 2,
-      };
-      setFormData(mockDependency);
-    };
-
-    fetchData();
+    loadSchoolDependency();
   }, []);
+
+  const loadSchoolDependency = async () =>{
+    const result = await axios.get("http://localhost:8080/school-dependencies", {
+      params: {
+        id: id
+      }
+    })
+    .then(response => {
+      setFormData(response.data);
+    })
+    .catch(error => {
+      console.error("Erro:", error);
+    }); 
+  };
 
   const handleChange = (e) => {
     const { name, value, type } = e.target;
-
-    if (type === 'number') {
-      const parsed = parseInt(value, 10);
-      if (isNaN(parsed) || parsed < 0) return;
-    }
-
     setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    console.log('Dependência atualizada:', formData);
-    navigate('/home', {
-      state: { successMessage: 'Dependência atualizada com sucesso!' }
+    const dto = {
+      id: id,
+      name: formData.name,
+      quantity: formData.quantity,
+      schoolId: formData.school.id
+    };
+    await axios.put("http://localhost:8080/school-dependencies", dto)
+    .then(response => {
+      navigate(`/escola/${formData.school.id}`, {
+        state: { successMessage: 'Dependência atualizada com sucesso!' }
+      });
+    })
+    .catch(error => {
+      console.error("Erro:", error);
     });
+    console.log('Dependência atualizada:', formData);
   };
 
   return (
@@ -66,27 +80,32 @@ export default function EditDependency() {
 
         <Box component="form" onSubmit={handleSubmit}>
           <Grid container spacing={3}>
-            <Grid item xs={12}>
+            <Grid size={{ xs: 12, sm: 6 }}>
               <TextField
                 fullWidth
                 label="Nome da Dependência"
-                name="dependecyName"
-                value={formData.dependecyName}
+                name="name"
+                type="text"
+                value={formData.name}
                 onChange={handleChange}
                 required
               />
             </Grid>
 
-            <Grid item xs={12} sm={6}>
+            <Grid size={{ xs: 12, sm: 6 }}>
               <TextField
                 fullWidth
-                type="number"
                 label="Quantidade"
                 name="quantity"
+                type="number"
                 value={formData.quantity}
                 onChange={handleChange}
+                onKeyDown={(e) => {
+                  if (e.key === '-' || e.key === 'e' || e.key === '+') {
+                    e.preventDefault(); // bloqueia -, e, +
+                  }
+                }}
                 required
-                slotProps={{ input: { min: 0, step: 1 } }}
               />
             </Grid>
           </Grid>
