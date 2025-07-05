@@ -13,6 +13,8 @@ import Import from './scenes/Import';
 import EditSchool from './scenes/schools/EditSchool';
 import AddDependency from './scenes/dependencies/AddDependency';
 import EditDependency from './scenes/dependencies/EditDependency';
+import Login from './scenes/Login';
+import Register from './scenes/Register';
 
 function App() {
   const [count, setCount] = useState(0)
@@ -23,6 +25,8 @@ function App() {
         <Navbar />
 
         <Routes>
+          <Route path="/login" element={<Login/>} />
+          <Route path="/registrar" element={<Register/>} />
           <Route path="/" element={<Home />} />
           <Route path="/home" element={<Home />} />
           <Route path="/escola/:id" element={<ViewSchool />} />
