@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import axios from 'axios';
 import {
   Container,
   TextField,
@@ -12,54 +14,97 @@ import {
   Divider,
 } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
-import { useNavigate } from 'react-router-dom';
 
 export default function EditSchool() {
+  const { id } = useParams();
   const navigate = useNavigate();
+  const [schoolTypes, setSchoolTypes] = useState([]);
+  const [schoolType, setSchoolType] = useState("");
   const [formData, setFormData] = useState({
-    rede: '',
-    diretoria: '',
-    municipio: '',
-    distrito: '',
-    codigo: '',
-    nome: '',
-    tipo: '',
-    situacao: '',
+    id: id,
+    name: '',
+    schoolNetwork: '',
+    educationBoard: '',
+    city: '',
+    district: '',
+    code: '',
+    type: '',
+    schoolStatus: '',
   });
 
-  const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
-    const fetchData = async () => {
-    const mockData = {
-      rede: 'Estadual',
-      diretoria: 'Diretoria Regional 3',
-      municipio: 'Cidade Exemplo',
-      distrito: 'Distrito Central',
-      codigo: 'ESC12345',
-      nome: 'Escola Exemplo',
-      tipo: 'Pública',
-      situacao: 'Ativa',
-    };
-
-    setFormData(mockData);
-    };
-
-    fetchData();
+    loadSchool();
+    loadSchoolTypes();
   }, []);
+
+  const loadSchoolTypes = async () =>{
+    const result = await axios.get("http://localhost:8080/school-types/all")
+    .then(response => {
+      //console.log("School Types:", response.data);
+      setSchoolTypes(response.data);
+    })
+    .catch(error => {
+      console.error("Erro:", error);
+    });
+  };
+
+  const loadSchool = async () =>{
+    const result = await axios.get("http://localhost:8080/schools", {
+      params: {
+        id: id
+      }
+    })
+    .then(response => {
+      console.log("Schools:", response.data);
+      setSchoolType(response.data.type.description);
+      setFormData(response.data);
+    })
+    .catch(error => {
+      console.error("Erro:", error);
+    });
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-    setSubmitted(false);
+     if (name === 'type') {
+      setSchoolType(value);
+      setFormData((prev) => ({
+        ...prev,
+        type: {
+          description: value
+        }
+      }));
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value
+      }));
+    }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
     console.log('Escola editada:', formData);
-    navigate('/home', {
-      state: { successMessage: 'Escola atualizada com sucesso!' }
+    const dto = {
+      id: id,
+      name: formData.name,
+      schoolNetwork: formData.schoolNetwork,
+      educationBoard: formData.educationBoard,
+      city: formData.city,
+      district: formData.district,
+      code: formData.code,
+      type: formData.type.description,
+      schoolStatus: formData.schoolStatus,
+    };
+    await axios.put("http://localhost:8080/schools", dto)
+    .then(response => {
+      navigate('/home', {
+        state: { successMessage: 'Escola atualizada com sucesso!' }
+      });
+    })
+    .catch(error => {
+      console.error("Erro:", error);
     });
   };
 
@@ -75,15 +120,15 @@ export default function EditSchool() {
         <Box component="form" onSubmit={handleSubmit}>
           <Grid container spacing={3}>
             {[
-              { label: 'Rede de Ensino', name: 'rede' },
-              { label: 'Diretoria', name: 'diretoria' },
-              { label: 'Município', name: 'municipio' },
-              { label: 'Distrito', name: 'distrito' },
-              { label: 'Código', name: 'codigo' },
-              { label: 'Nome da Escola', name: 'nome' },
-              { label: 'Situação da Escola', name: 'situacao' },
+              { label: 'Rede de Ensino', name: 'schoolNetwork' },
+              { label: 'Diretoria', name: 'educationBoard' },
+              { label: 'Município', name: 'city' },
+              { label: 'Distrito', name: 'district' },
+              { label: 'Código', name: 'code' },
+              { label: 'Nome da Escola', name: 'name' },
+              { label: 'Situação da Escola', name: 'schoolStatus' },
             ].map((field) => (
-              <Grid item xs={12} sm={6} key={field.name}>
+              <Grid size={{ xs: 12, sm: 6 }} key={field.name}>
                 <TextField
                   fullWidth
                   label={field.label}
@@ -93,23 +138,25 @@ export default function EditSchool() {
                   required
                 />
               </Grid>
-            ))}
-
-            <Box width="50%" minWidth="225px" mb={2}>
-              <TextField
-                select
-                fullWidth
-                label="Tipo da Escola"
-                name="tipo"
-                value={formData.tipo}
-                onChange={handleChange}
-                required
-              >
-                <MenuItem value="Pública">Pública</MenuItem>
-                <MenuItem value="Privada">Privada</MenuItem>
-                <MenuItem value="Filantrópica">Filantrópica</MenuItem>
-              </TextField>
+            ))}         
+            <Box width="48%" minWidth="225px" mb={2}>
+                <TextField
+                  select
+                  fullWidth
+                  label="Tipo da Escola"
+                  name="type"
+                  value={schoolType}
+                  onChange={handleChange}
+                  required
+                >
+                  {schoolTypes.map((type) => (
+                    <MenuItem key={type.id} value={type.description}>
+                      {type.description}
+                    </MenuItem>
+                  ))}
+                </TextField>
             </Box>
+
           </Grid>
 
           <Box mt={5} textAlign="center">
@@ -124,12 +171,6 @@ export default function EditSchool() {
               Salvar Alterações
             </Button>
           </Box>
-
-          {submitted && (
-            <Alert severity="success" sx={{ mt: 4 }}>
-              Escola atualizada com sucesso!
-            </Alert>
-          )}
         </Box>
       </Paper>
     </Container>

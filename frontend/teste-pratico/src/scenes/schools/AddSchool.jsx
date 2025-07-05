@@ -106,8 +106,7 @@ export default function AddSchool() {
                 </Grid>
                 ))}
 
-                {/* Tipo da Escola como SELECT */}
-                <Box width="50%" minWidth="225px" mb={2}>
+                <Box width="48%" minWidth="225px" mb={2}>
                   {schoolTypes.length === 0 ? (
                     <TextField
                       fullWidth
