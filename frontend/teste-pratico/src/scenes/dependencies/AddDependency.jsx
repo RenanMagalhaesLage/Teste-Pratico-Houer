@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import {
   Container,
   TextField,
@@ -15,33 +16,32 @@ import {
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 export default function AddDependency() {
-    const navigate = useNavigate();
-    const [formData, setFormData] = useState({
-        dependencyName: '',
-        quantity: 0
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    dependencyName: '',
+    quantity: 0
+  });
+
+  const handleChange = (e) => {
+  const { name, value, type } = e.target;
+
+  if (name === 'quantity') {
+    const numericValue = parseInt(value, 10);
+    if (isNaN(numericValue) || numericValue < 0) return;
+  }
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log('Nova dependencia da escola:', formData);
+    navigate('/home', {
+      state: { successMessage: 'Dependência adicionada com sucesso!' }
     });
-
-    const handleChange = (e) => {
-    const { name, value, type } = e.target;
-
-        if (name === 'quantity') {
-            const numericValue = parseInt(value, 10);
-            if (isNaN(numericValue) || numericValue < 0) return;
-        }
-
-        setFormData((prev) => ({
-            ...prev,
-            [name]: value,
-        }));
-    };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log('Nova dependencia da escola:', formData);
-        navigate('/home', {
-            state: { successMessage: 'Dependência adicionada com sucesso!' }
-        });
-    };
+  };
 
   return (
     <Container maxWidth="md" sx={{ mt: 6, mb: 6 }}>

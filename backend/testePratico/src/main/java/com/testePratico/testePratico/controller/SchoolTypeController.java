@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/schools-types")
+@RequestMapping("/school-types")
 @Tag(name = "Tipo de Escolas", description = "Endpoints para gerenciamento de tipos de escolas")
 public class SchoolTypeController {
     @Autowired

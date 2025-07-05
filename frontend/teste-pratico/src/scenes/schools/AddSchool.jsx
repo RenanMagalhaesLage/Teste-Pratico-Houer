@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import {
   Container,
   TextField,
@@ -15,30 +16,63 @@ import {
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 export default function AddSchool() {
-    const navigate = useNavigate();
-    const [formData, setFormData] = useState({
-        rede: '',
-        diretoria: '',
-        municipio: '',
-        distrito: '',
-        codigo: '',
-        nome: '',
-        tipo: '',
-        situacao: '',
+  const navigate = useNavigate();
+  const [schoolTypes, setSchoolTypes] = useState([]);
+  const [formData, setFormData] = useState({
+    rede: '',
+    diretoria: '',
+    municipio: '',
+    distrito: '',
+    codigo: '',
+    nome: '',
+    tipo: '',
+    situacao: '',
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  useEffect(() => {
+    loadSchoolTypes();
+  }, []);
+
+  const loadSchoolTypes = async () =>{
+    const result = await axios.get("http://localhost:8080/school-types/all")
+    .then(response => {
+      //console.log("School Types:", response.data);
+      setSchoolTypes(response.data);
+    })
+    .catch(error => {
+      console.error("Erro:", error);
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log('Nova escola:', formData);
+    const dto = {
+      name: formData.nome,
+      schoolNetwork: formData.rede,
+      educationBoard: formData.diretoria,
+      city: formData.municipio,
+      district: formData.distrito,
+      code: formData.codigo,
+      type: formData.tipo,
+      schoolStatus: formData.situacao,
+    };
+    await axios.post("http://localhost:8080/schools", dto)
+    .then(response => {
+      navigate('/home', {
+        state: { successMessage: 'Escola adicionada com sucesso!' }
+      });
+    })
+    .catch(error => {
+      console.error("Erro:", error);
     });
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData((prev) => ({ ...prev, [name]: value }));
-    };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log('Nova escola:', formData);
-        navigate('/home', {
-            state: { successMessage: 'Escola adicionada com sucesso!' }
-        });
-    };
+  };
 
   return (
     <Container maxWidth="md" sx={{ mt: 6, mb: 6 }}>
@@ -60,34 +94,46 @@ export default function AddSchool() {
                 { label: 'Nome da Escola', name: 'nome' },
                 { label: 'Situação da Escola', name: 'situacao' },
                 ].map((field) => (
-                <Grid item xs={12} sm={6} key={field.name}>
-                    <TextField
+                <Grid size={{ xs: 12, sm: 6 }} key={field.name}>
+                  <TextField
                     fullWidth
                     label={field.label}
                     name={field.name}
                     value={formData[field.name]}
                     onChange={handleChange}
                     required
-                    />
+                  />
                 </Grid>
                 ))}
 
                 {/* Tipo da Escola como SELECT */}
-
                 <Box width="50%" minWidth="225px" mb={2}>
+                  {schoolTypes.length === 0 ? (
                     <TextField
-                        select
-                        fullWidth
-                        label="Tipo da Escola"
-                        name="tipo"
-                        value={formData.tipo}
-                        onChange={handleChange}
-                        required
+                      fullWidth
+                      label="Tipo da Escola"
+                      name="tipo"
+                      value={formData.tipo}
+                      onChange={handleChange}
+                      required
+                    />
+                  ) : (
+                    <TextField
+                      select
+                      fullWidth
+                      label="Tipo da Escola"
+                      name="tipo"
+                      value={formData.tipo}
+                      onChange={handleChange}
+                      required
                     >
-                        <MenuItem value="Pública">Pública</MenuItem>
-                        <MenuItem value="Privada">Privada</MenuItem>
-                        <MenuItem value="Filantrópica">Filantrópica</MenuItem>
+                      {schoolTypes.map((type) => (
+                        <MenuItem key={type.id} value={type.description}>
+                          {type.description}
+                        </MenuItem>
+                      ))}
                     </TextField>
+                  )}
                 </Box>
 
             </Grid>

@@ -15,9 +15,14 @@ export default function Home() {
   }, []);
 
   const loadSchools = async () =>{
-    const result = await axios.get("http://localhost:8080/schools/all");
-    setSchools(result.data);
-    //console.log(result.data);
+    const result = await axios.get("http://localhost:8080/schools/all")
+    .then(response => {
+      //console.log("Schools:", response.data);
+      setSchools(response.data);
+    })
+    .catch(error => {
+      console.error("Erro:", error);
+    });
   };
 
   useEffect(() => {
