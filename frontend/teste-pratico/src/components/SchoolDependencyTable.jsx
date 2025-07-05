@@ -90,8 +90,8 @@ export default function SchoolDependencyTable({data}) {
           <TableBody>
             {paginatedData.map((row, index) => (
               <TableRow key={index} hover>
-                <TableCell>{row.nome}</TableCell>
-                <TableCell>{row.quantidade}</TableCell>
+                <TableCell>{row.name}</TableCell>
+                <TableCell>{row.quantity}</TableCell>
                 <TableCell align="center">
                   <IconButton color="warning" aria-label="editar" onClick={() => handleEdit(row.nome)}>
                     <EditIcon />
