@@ -49,7 +49,7 @@ export default function Register() {
     console.log('Dados de registro:', formData);
     const dto = {
       username: formData.username,
-      email: formData.username,
+      email: formData.email,
       password: formData.password,
       role: "USER"
     };
