@@ -21,6 +21,7 @@ export default function EditSchool() {
   const navigate = useNavigate();
   const [schoolTypes, setSchoolTypes] = useState([]);
   const [schoolType, setSchoolType] = useState("");
+  const [newType, setNewType] = useState("");
   const [formData, setFormData] = useState({
     id: id,
     name: '',
@@ -92,6 +93,7 @@ export default function EditSchool() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const schoolType = newType.trim() !== "" ? newType.trim() : formData.type.description;
     const dto = {
       id: id,
       name: formData.name,
@@ -100,7 +102,7 @@ export default function EditSchool() {
       city: formData.city,
       district: formData.district,
       code: formData.code,
-      type: formData.type.description,
+      type: schoolType,
       schoolStatus: formData.schoolStatus,
     };
     await axios.put("http://localhost:8080/schools", dto,{
@@ -150,21 +152,33 @@ export default function EditSchool() {
               </Grid>
             ))}         
             <Box width="48%" minWidth="225px" mb={2}>
-                <TextField
-                  select
-                  fullWidth
-                  label="Tipo da Escola"
-                  name="type"
-                  value={schoolType}
-                  onChange={handleChange}
-                  required
-                >
-                  {schoolTypes.map((type) => (
-                    <MenuItem key={type.id} value={type.description}>
-                      {type.description}
-                    </MenuItem>
-                  ))}
-                </TextField>
+              <TextField
+                select
+                fullWidth
+                label="Tipo da Escola"
+                name="type"
+                value={schoolType}
+                onChange={handleChange}
+                required
+                disabled={!!newType} // Desativa o select se "Novo tipo" estiver preenchido
+              >
+                {schoolTypes.map((type) => (
+                  <MenuItem key={type.id} value={type.description}>
+                    {type.description}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Box>
+
+            <Box width="48%" minWidth="225px" mb={2}>
+              <TextField
+                fullWidth
+                label="Novo tipo de Escola"
+                value={newType}
+                onChange={(e) => setNewType(e.target.value)}
+                name="newType"
+                placeholder="Digite um novo tipo"
+              />
             </Box>
 
           </Grid>
