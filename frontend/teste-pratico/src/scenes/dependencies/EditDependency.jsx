@@ -15,6 +15,7 @@ import SaveIcon from '@mui/icons-material/Save';
 
 export default function EditDependency() {
   const { id } = useParams();
+  const token = localStorage.getItem('token');
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     id: id,
@@ -28,9 +29,12 @@ export default function EditDependency() {
   }, []);
 
   const loadSchoolDependency = async () =>{
-    const result = await axios.get("http://localhost:8080/school-dependencies", {
+    await axios.get("http://localhost:8080/school-dependencies", {
       params: {
         id: id
+      },
+      headers: {
+        Authorization: `Bearer ${token}`
       }
     })
     .then(response => {
@@ -57,7 +61,11 @@ export default function EditDependency() {
       quantity: formData.quantity,
       schoolId: formData.school.id
     };
-    await axios.put("http://localhost:8080/school-dependencies", dto)
+    await axios.put("http://localhost:8080/school-dependencies", dto, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
     .then(response => {
       navigate(`/escola/${formData.school.id}`, {
         state: { successMessage: 'Dependência atualizada com sucesso!' }

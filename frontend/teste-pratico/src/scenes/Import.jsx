@@ -18,6 +18,7 @@ import DescriptionIcon from '@mui/icons-material/Description';
 import ClipLoader from "react-spinners/ClipLoader";
 
 export default function Import() {
+  const token = localStorage.getItem('token');
   const [file, setFile] = useState(null);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
@@ -55,12 +56,12 @@ export default function Import() {
 
       const response = await axios.post('http://localhost:8080/upload-csv', formData, {
         headers: {
-          'Content-Type': 'multipart/form-data'
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${token}`
         }
       });
 
       setSuccess('Upload do arquivo CSV realizado com sucesso!');
-      console.log('Resposta do servidor:', response.data);
     } catch (err) {
       setError('Erro ao enviar o arquivo.');
       console.error(err);

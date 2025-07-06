@@ -19,9 +19,9 @@ export default function SchoolDependencyTable({data}) {
   const rowsPerPage = 5;
 
   const filteredData = data.filter(item =>
-      Object.values(item).some(value =>
+    Object.values(item).some(value =>
       value.toString().toLowerCase().includes(filter.toLowerCase())
-      )
+    )
   );
 
   const paginatedData = filteredData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);

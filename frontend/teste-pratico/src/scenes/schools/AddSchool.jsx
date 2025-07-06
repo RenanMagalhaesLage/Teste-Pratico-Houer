@@ -17,6 +17,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 export default function AddSchool() {
   const navigate = useNavigate();
+  const token = localStorage.getItem('token');
   const [schoolTypes, setSchoolTypes] = useState([]);
   const [formData, setFormData] = useState({
     rede: '',
@@ -39,7 +40,11 @@ export default function AddSchool() {
   }, []);
 
   const loadSchoolTypes = async () =>{
-    const result = await axios.get("http://localhost:8080/school-types/all")
+    await axios.get("http://localhost:8080/school-types/all", {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
     .then(response => {
       //console.log("School Types:", response.data);
       setSchoolTypes(response.data);
@@ -62,7 +67,11 @@ export default function AddSchool() {
       type: formData.tipo,
       schoolStatus: formData.situacao,
     };
-    await axios.post("http://localhost:8080/schools", dto)
+    await axios.post("http://localhost:8080/schools", dto, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
     .then(response => {
       navigate('/home', {
         state: { successMessage: 'Escola adicionada com sucesso!' }

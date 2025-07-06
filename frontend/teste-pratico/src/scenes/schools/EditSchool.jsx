@@ -17,6 +17,7 @@ import SaveIcon from '@mui/icons-material/Save';
 
 export default function EditSchool() {
   const { id } = useParams();
+  const token = localStorage.getItem('token');
   const navigate = useNavigate();
   const [schoolTypes, setSchoolTypes] = useState([]);
   const [schoolType, setSchoolType] = useState("");
@@ -39,7 +40,11 @@ export default function EditSchool() {
   }, []);
 
   const loadSchoolTypes = async () =>{
-    const result = await axios.get("http://localhost:8080/school-types/all")
+    await axios.get("http://localhost:8080/school-types/all", {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
     .then(response => {
       //console.log("School Types:", response.data);
       setSchoolTypes(response.data);
@@ -50,9 +55,12 @@ export default function EditSchool() {
   };
 
   const loadSchool = async () =>{
-    const result = await axios.get("http://localhost:8080/schools", {
+    await axios.get("http://localhost:8080/schools", {
       params: {
         id: id
+      },
+      headers: {
+        Authorization: `Bearer ${token}`
       }
     })
     .then(response => {
@@ -95,7 +103,11 @@ export default function EditSchool() {
       type: formData.type.description,
       schoolStatus: formData.schoolStatus,
     };
-    await axios.put("http://localhost:8080/schools", dto)
+    await axios.put("http://localhost:8080/schools", dto,{
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
     .then(response => {
       navigate('/home', {
         state: { successMessage: 'Escola atualizada com sucesso!' }

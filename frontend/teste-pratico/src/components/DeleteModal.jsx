@@ -16,6 +16,7 @@ import axios from 'axios';
 
 export default function DeleteModal({ open, onClose, onConfirm, itemName, itemType, itemId }) {
   const [showAlert, setShowAlert] = useState(false);
+  const token = localStorage.getItem('token');
   const navigate = useNavigate();
   const handleDelete = async (e) => {
     e.preventDefault();
@@ -33,6 +34,9 @@ export default function DeleteModal({ open, onClose, onConfirm, itemName, itemTy
     await axios.delete("http://localhost:8080/schools",{
       params: {
         id: itemId
+      },
+      headers: {
+        Authorization: `Bearer ${token}`
       }
     })
     .then(response => {
@@ -47,6 +51,9 @@ export default function DeleteModal({ open, onClose, onConfirm, itemName, itemTy
     await axios.delete("http://localhost:8080/school-dependencies",{
       params: {
         id: itemId
+      },
+      headers: {
+        Authorization: `Bearer ${token}`
       }
     })
     .then(response => {

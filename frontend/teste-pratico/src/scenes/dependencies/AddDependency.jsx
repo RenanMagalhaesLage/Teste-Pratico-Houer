@@ -16,6 +16,7 @@ import {
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 export default function AddDependency() {
+  const token = localStorage.getItem('token');
   const { schoolId } = useParams();
   const navigate = useNavigate();
   const [error, setError] = useState(false);
@@ -36,8 +37,11 @@ export default function AddDependency() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Nova dependencia da escola:', formData);
-    await axios.post("http://localhost:8080/school-dependencies", formData)
+    await axios.post("http://localhost:8080/school-dependencies", formData, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
     .then(response => {
       navigate(`/escola/${schoolId}`, {
         state: { successMessage: 'Dependência adicionada com sucesso!' }

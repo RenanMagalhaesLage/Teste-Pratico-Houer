@@ -15,6 +15,7 @@ import axios from 'axios';
 
 export default function ViewSchool() {
   const { id } = useParams();
+  const token = localStorage.getItem('token');
   const location = useLocation();
   const [showAlert, setShowAlert] = useState(false);
   const [message, setMessage] = useState('');
@@ -40,9 +41,12 @@ export default function ViewSchool() {
   }, []);
   
   const loadSchool = async () =>{
-    const result = await axios.get("http://localhost:8080/schools", {
+    await axios.get("http://localhost:8080/schools", {
       params: {
         id: id
+      },
+      headers: {
+        Authorization: `Bearer ${token}`
       }
     })
     .then(response => {
@@ -57,9 +61,12 @@ export default function ViewSchool() {
   };
 
   const loadSchoolDependencies = async (schoolId) =>{
-    const result = await axios.get('http://localhost:8080/school-dependencies/by-school', {
+    await axios.get('http://localhost:8080/school-dependencies/by-school', {
       params: {
         schoolId: schoolId
+      },
+      headers: {
+        Authorization: `Bearer ${token}`
       }
     })
     .then(response => {
