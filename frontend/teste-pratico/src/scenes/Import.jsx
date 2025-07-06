@@ -23,6 +23,7 @@ export default function Import() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(false);
+  const [warning, setWarning] = useState('');
   const navigate = useNavigate();
 
   const handleFileChange = (event) => {
@@ -33,6 +34,12 @@ export default function Import() {
     if (selectedFile) {
       const fileType = selectedFile.type;
       const fileName = selectedFile.name;
+      const fileSize = selectedFile.size; 
+      const maxSizeInBytes = 2 * 1024 * 1024; 
+
+      if (fileSize > maxSizeInBytes) {
+        setWarning('O arquivo é consideravelmente grande. O upload pode demorar alguns minutos.');
+      }
 
       if (fileType === 'text/csv' || fileName.toLowerCase().endsWith('.csv')) {
         setFile(selectedFile);
@@ -110,6 +117,7 @@ export default function Import() {
 
             {error && <Alert severity="error">{error}</Alert>}
             {success && <Alert severity="success">{success}</Alert>}
+            {warning && <Alert severity="warning">{warning}</Alert>}
           </Stack>
         </CardContent>
 
