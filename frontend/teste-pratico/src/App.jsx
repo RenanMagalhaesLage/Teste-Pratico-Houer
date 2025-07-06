@@ -15,6 +15,7 @@ import AddDependency from './scenes/dependencies/AddDependency';
 import EditDependency from './scenes/dependencies/EditDependency';
 import Login from './scenes/Login';
 import Register from './scenes/Register';
+import PrivateRoute from './components/PrivateRoute'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -25,18 +26,84 @@ function App() {
         <Navbar />
 
         <Routes>
-          <Route path="/login" element={<Login/>} />
-          <Route path="/registrar" element={<Register/>} />
-          <Route path="/" element={<Home />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/escola/:id" element={<ViewSchool />} />
-          <Route path="/escola/adicionar" element={<AddSchool/>} />
-          <Route path="/escola/editar/:id" element={<EditSchool/>} />
-          <Route path="/importar" element={<Import />} />
-          <Route path="/dependencia/adicionar/:schoolId" element={<AddDependency/>} />
-          <Route path="/dependencia/editar/:id" element={<EditDependency/>} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/registrar" element={<Register />} />
+
+          {/* Rotas protegidas */}
+          <Route 
+            path="/" 
+            element={
+              <PrivateRoute>
+                <Home />
+              </PrivateRoute>
+            } 
+          />
+
+          <Route 
+            path="/home" 
+            element={
+              <PrivateRoute>
+                <Home />
+              </PrivateRoute>
+            } 
+          />
+
+          <Route 
+            path="/escola/:id" 
+            element={
+              <PrivateRoute>
+                <ViewSchool />
+              </PrivateRoute>
+            } 
+          />
+
+          <Route 
+            path="/escola/adicionar" 
+            element={
+              <PrivateRoute>
+                <AddSchool />
+              </PrivateRoute>
+            } 
+          />
+
+          <Route 
+            path="/escola/editar/:id" 
+            element={
+              <PrivateRoute>
+                <EditSchool />
+              </PrivateRoute>
+            } 
+          />
+
+          <Route 
+            path="/importar" 
+            element={
+              <PrivateRoute>
+                <Import />
+              </PrivateRoute>
+            } 
+          />
+
+          <Route 
+            path="/dependencia/adicionar/:schoolId" 
+            element={
+              <PrivateRoute>
+                <AddDependency />
+              </PrivateRoute>
+            } 
+          />
+
+          <Route 
+            path="/dependencia/editar/:id" 
+            element={
+              <PrivateRoute>
+                <EditDependency />
+              </PrivateRoute>
+            } 
+          />
         </Routes>
       </Router>
+
     </div>
   )
 }

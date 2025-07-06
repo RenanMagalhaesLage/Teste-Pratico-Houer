@@ -39,7 +39,7 @@ export default function Login() {
 
     try {
       const response = await axios.post("http://localhost:8080/auth/login", formData);
-      const token = response.data;
+      const token = response.data.token; 
       localStorage.setItem('token', token);
       navigate('/home');
 

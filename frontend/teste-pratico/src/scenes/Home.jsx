@@ -5,6 +5,7 @@ import { Alert } from '@mui/material';
 import axios from 'axios';
 
 export default function Home() {
+  const token = localStorage.getItem('token');
   const location = useLocation();
   const [showAlert, setShowAlert] = useState(false);
   const [message, setMessage] = useState('');
@@ -15,7 +16,11 @@ export default function Home() {
   }, []);
 
   const loadSchools = async () =>{
-    const result = await axios.get("http://localhost:8080/schools/all")
+    const result = await axios.get("http://localhost:8080/schools/all",{
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
     .then(response => {
       //console.log("Schools:", response.data);
       setSchools(response.data);
