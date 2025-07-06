@@ -204,4 +204,6 @@ Disponível em:
 ```bash
 http://localhost:8080/swagger-ui/index.html
 ```
+
+![Swagger](./img/Swagger.png)
 ---
