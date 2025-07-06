@@ -169,6 +169,21 @@ npm run dev
 
 ---
 
+## 🖥️ Uso do sistema
+
+1. Registre-se preenchendo seu nome, e-mail e senha para criar uma nova conta.
+2. Faça login utilizando seu e-mail e senha cadastrados para acessar o sistema.
+3. Para importar, clique na opção **Importar CSV** na barra de navegação.
+Não é recomendado o uso de arquivos muito grandes, pois a operação pode demorar.
+Neste repositório, há o [arquivo original das instalações físicas](https://dados.educacao.sp.gov.br/dataset/instala%C3%A7%C3%B5es-f%C3%ADsicas-por-unidade-escolar) com mais de 5 mil linhas e uma versão reduzida chamada "Escola_Dependencias_small.csv", com apenas 20 linhas, que pode ser usado para exemplificar a importação de maneira rápida.
+4. Caso deseje adicionar escolas manualmente, clique no botão **Adicionar Escola** e preencha as informações obrigatórias para cadastrar novas unidades no sistema.
+5. Para editar uma escola, clique no ícone de **lápis amarelo** diretamente na listagem ou clique no ícone de ícone olho azul para visualizar os detalhes da escola e, na página de visualização, clique em **Editar**.
+6. Para deletar uma escola, clique no ícone de **lixeira vermelha** na listagem ou clique no ícone de **olho azul** para visualizar os detalhes da escola e, na página de visualização, clique em **Deletar**.
+Confirme a ação na janela de confirmação para remover a unidade do sistema permanentemente.
+7. Para gerenciar dependências de uma escola, acesse a página de visualização (ícone de olho azul).
+Nela, é possível criar, editar e deletar dependências vinculadas à unidade escolar.
+---
+
 ## 🖼️ Imagens do Projeto
 
 Abaixo estão algumas capturas de tela que ilustram as principais funcionalidades do sistema:
