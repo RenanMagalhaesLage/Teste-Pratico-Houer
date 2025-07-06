@@ -1,5 +1,5 @@
 <div align="center">
-  <h1> Teste Prático Fullstack - Instalações Escolar </h1>
+  <h1> Teste Prático Fullstack - Instalações Escolares </h1>
 </div>
 
 <div align="center">
@@ -123,6 +123,11 @@ npm install
 ```bash
 npm run dev
 ```
+4. O projeto será iniciado em modo de desenvolvimento. Por padrão, o frontend estará disponível em:
+
+👉 http://localhost:5173
+
+(Essa porta é a padrão usada pelo Vite. Caso esteja ocupada, uma porta alternativa será exibida no terminal.)
 
 ---
 
