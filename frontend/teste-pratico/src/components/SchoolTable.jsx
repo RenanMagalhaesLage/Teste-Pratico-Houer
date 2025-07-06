@@ -40,7 +40,7 @@ export default function SchoolTable({data}) {
     navigate(`/escola/${id}`);
   };
 
-   const handleEdit = (id) => {
+  const handleEdit = (id) => {
     navigate(`/escola/editar/${id}`);
   };
 

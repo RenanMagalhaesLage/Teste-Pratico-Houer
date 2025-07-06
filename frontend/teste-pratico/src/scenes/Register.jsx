@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import {
   Container,
   Typography,
@@ -10,11 +12,12 @@ import {
 } from '@mui/material';
 
 export default function Register() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: '',
     email: '',
     password: '',
-    confirmPassword: '',
+    confirmPassword: ''
   });
 
   const [success, setSuccess] = useState('');
@@ -25,7 +28,7 @@ export default function Register() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const { username, email, password, confirmPassword } = formData;
@@ -44,8 +47,22 @@ export default function Register() {
 
     // Chamada da API
     console.log('Dados de registro:', formData);
-    setSuccess('Registro realizado com sucesso!');
-    setError('');
+    const dto = {
+      username: formData.username,
+      email: formData.username,
+      password: formData.password,
+      role: "USER"
+    };
+    try {
+      await axios.post("http://localhost:8080/auth/register", dto);
+      navigate('/login', {
+        state: { successMessage: 'Cadastro realizado com sucesso!' }
+      });
+    } catch (error) {
+      console.error("Erro:", error);
+      setError('Não foi possível realizar o cadastro.');
+    }
+
   };
 
   return (

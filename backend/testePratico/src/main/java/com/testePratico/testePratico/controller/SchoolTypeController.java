@@ -17,13 +17,13 @@ public class SchoolTypeController {
     @Autowired
     private SchoolTypeService schoolTypeService;
 
-    @Operation(summary = "Buscar escola por id")
+    @Operation(summary = "Buscar tipo de escola por id")
     @GetMapping
     public ResponseEntity<SchoolTypeEntity> getSchoolTypeById(@RequestParam Long id) {
         return ResponseEntity.ok(schoolTypeService.getSchoolTypeById(id));
     }
 
-    @Operation(summary = "Buscar todas as escola")
+    @Operation(summary = "Buscar todos os tipos de escola")
     @GetMapping("/all")
     public ResponseEntity<List<SchoolTypeEntity>> getAllSchoolType() {
         return ResponseEntity.ok(schoolTypeService.getAllSchoolType());

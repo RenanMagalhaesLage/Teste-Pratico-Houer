@@ -13,6 +13,7 @@ import {
 import ClipLoader from "react-spinners/ClipLoader";
 
 export default function Login() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -27,7 +28,7 @@ export default function Login() {
     setError('');
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const { email, password } = formData;
 
@@ -36,10 +37,25 @@ export default function Login() {
       return;
     }
 
+    try {
+      const response = await axios.post("http://localhost:8080/auth/login", formData);
+      const token = response.data;
+      localStorage.setItem('token', token);
+      navigate('/home');
+
+    } catch (error) {
+      console.error("Erro:", error);
+      setError('Não foi possível realizar o login.');
+    }
+
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
     }, 1000);
+  };
+
+  const handleRegister = () => {
+    navigate(`/registrar`);
   };
 
   return (
@@ -88,6 +104,7 @@ export default function Login() {
               color="primary"
               size="large"
               disabled={loading}
+              sx={{ mr: 2 }}
             >
               {loading ? 'Entrando...' : 'Entrar'}
               {loading && (
@@ -98,6 +115,15 @@ export default function Login() {
                     aria-label="Loading Spinner"
                 />
                 )}
+            </Button>
+            <Button
+              variant="outlined"
+              color="primary"
+              size="large"
+              disabled={loading}
+              onClick={() => handleRegister()}
+            >
+              Registrar
             </Button>
           </Box>
         </Box>
