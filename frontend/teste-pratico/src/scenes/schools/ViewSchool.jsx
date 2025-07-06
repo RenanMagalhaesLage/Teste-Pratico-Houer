@@ -9,12 +9,15 @@ import {
   Button,
   Alert
 } from '@mui/material';
-import { useLocation, useParams} from 'react-router-dom';
+import { useLocation, useParams, useNavigate} from 'react-router-dom';
 import SchoolDependencyTable from '../../components/SchoolDependencyTable';
+import DeleteModal from '../../components/DeleteModal';
 import axios from 'axios';
 
 export default function ViewSchool() {
   const { id } = useParams();
+  const navigate = useNavigate();
+  const [itemToDelete, setItemToDelete] = useState(null);
   const token = localStorage.getItem('token');
   const location = useLocation();
   const [showAlert, setShowAlert] = useState(false);
@@ -78,6 +81,10 @@ export default function ViewSchool() {
     });
   };
 
+  const handleEdit = (id) => {
+    navigate(`/escola/editar/${id}`);
+  };
+
   return (
     <Container sx={{ mt: 6, pb: 4 }}>
       {showAlert  && (
@@ -119,6 +126,7 @@ export default function ViewSchool() {
                     color="warning"
                     size="small"
                     sx={{ mr: 1 }}
+                    onClick={() => handleEdit(school.id)}
                   >
                     Editar
                   </Button>
@@ -126,9 +134,22 @@ export default function ViewSchool() {
                     variant="contained"
                     color="error"
                     size="small"
+                     onClick={() => setItemToDelete(school)}
                   >
                     Deletar
                   </Button>
+                  {itemToDelete && (
+                    <DeleteModal
+                      open={Boolean(itemToDelete)}
+                      onClose={() => setItemToDelete(null)}
+                      onConfirm={() => {
+                        setItemToDelete(null);
+                      }}
+                      itemName={itemToDelete.name}
+                      itemType={"Escola"}
+                      itemId={itemToDelete.id}
+                    />
+                  )}
                 </Box>
               </CardContent>
             </Card>

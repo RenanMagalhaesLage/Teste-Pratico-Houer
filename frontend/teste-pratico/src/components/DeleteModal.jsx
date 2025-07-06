@@ -18,6 +18,7 @@ export default function DeleteModal({ open, onClose, onConfirm, itemName, itemTy
   const [showAlert, setShowAlert] = useState(false);
   const token = localStorage.getItem('token');
   const navigate = useNavigate();
+  
   const handleDelete = async (e) => {
     e.preventDefault();
     if(itemType === "Escola"){
@@ -27,7 +28,6 @@ export default function DeleteModal({ open, onClose, onConfirm, itemName, itemTy
       deleteSchoolDependency();
       onClose();
     }
-    setOpenModal(false);
   };
 
   const deleteSchool = async () => {
@@ -40,6 +40,7 @@ export default function DeleteModal({ open, onClose, onConfirm, itemName, itemTy
       }
     })
     .then(response => {
+      navigate(`/home`);
       window.location.reload();
     })
     .catch(error => {
