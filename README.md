@@ -47,49 +47,6 @@ Clone o repositório:
 ```bash
 https://github.com/RenanMagalhaesLage/Teste-Pratico-Houer.git
 ```
----
-
-## 🧩 Diagrama Entidade Relacionamento do Banco de Dados
-
-```mermaid
-erDiagram
-    SCHOOL ||--o{ SCHOOL_DEPENDENCY : has
-    SCHOOL_TYPE ||--o{ SCHOOL : describes
-
-    USER {
-        bigint id PK
-        string username
-        string email
-        string password
-        string role
-    }
-
-    SCHOOL {
-        bigint id PK
-        string name
-        string education_network
-        string education_board
-        string city
-        string district
-        string code
-        string school_type_id
-        string school_status
-        int schoolType FK
-    }
-
-    SCHOOL_DEPENDENCY {
-        bigint id PK
-        string name
-        int quantity
-        bigint school_id FK
-    }
-
-    SCHOOL_TYPE {
-        int id PK
-        string description
-    }
-
-```
 
 ---
 
@@ -182,6 +139,49 @@ Neste repositório, há o [arquivo original das instalações físicas](https://
 Confirme a ação na janela de confirmação para remover a unidade do sistema permanentemente.
 7. Para gerenciar dependências de uma escola, acesse a página de visualização (ícone de olho azul).
 Nela, é possível criar, editar e deletar dependências vinculadas à unidade escolar.
+---
+
+## 🧩 Diagrama Entidade Relacionamento do Banco de Dados
+
+```mermaid
+erDiagram
+    SCHOOL ||--o{ SCHOOL_DEPENDENCY : has
+    SCHOOL_TYPE ||--o{ SCHOOL : describes
+
+    USER {
+        bigint id PK
+        string username
+        string email
+        string password
+        string role
+    }
+
+    SCHOOL {
+        bigint id PK
+        string name
+        string education_network
+        string education_board
+        string city
+        string district
+        string code
+        string school_type_id
+        string school_status
+        int schoolType FK
+    }
+
+    SCHOOL_DEPENDENCY {
+        bigint id PK
+        string name
+        int quantity
+        bigint school_id FK
+    }
+
+    SCHOOL_TYPE {
+        int id PK
+        string description
+    }
+```
+
 ---
 
 ## 🖼️ Imagens do Projeto
