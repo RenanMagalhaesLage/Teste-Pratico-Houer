@@ -72,7 +72,7 @@ export default function Register() {
           Criar Conta
         </Typography>
         <Typography variant="h4" textAlign="center" gutterBottom>
-          Infraestrutura Escolar
+          Instalações Escolar
         </Typography>
 
         <Box component="form" onSubmit={handleSubmit}>

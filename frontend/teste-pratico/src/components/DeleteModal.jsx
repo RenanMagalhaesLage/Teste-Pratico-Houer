@@ -44,6 +44,10 @@ export default function DeleteModal({ open, onClose, onConfirm, itemName, itemTy
       window.location.reload();
     })
     .catch(error => {
+      if (error.response?.status === 403) {
+        localStorage.removeItem('token');
+        window.location.href = '/login';
+      }
       console.error("Erro:", error);
     });
   };
@@ -61,6 +65,10 @@ export default function DeleteModal({ open, onClose, onConfirm, itemName, itemTy
       window.location.reload();
     })
     .catch(error => {
+      if (error.response?.status === 403) {
+        localStorage.removeItem('token');
+        window.location.href = '/login';
+      }
       console.error("Erro:", error);
     });
   }

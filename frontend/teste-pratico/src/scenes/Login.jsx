@@ -65,7 +65,7 @@ export default function Login() {
           Login
         </Typography>
         <Typography variant="h4" textAlign="center" gutterBottom>
-          Infraestrutura Escolar
+          Instalações Escolar
         </Typography>
 
         <Box component="form" onSubmit={handleSubmit} mt={3}>

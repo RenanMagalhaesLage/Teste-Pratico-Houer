@@ -47,10 +47,13 @@ export default function EditSchool() {
       }
     })
     .then(response => {
-      //console.log("School Types:", response.data);
       setSchoolTypes(response.data);
     })
     .catch(error => {
+      if (error.response?.status === 403) {
+        localStorage.removeItem('token');
+        window.location.href = '/login';
+      }
       console.error("Erro:", error);
     });
   };
@@ -69,6 +72,10 @@ export default function EditSchool() {
       setFormData(response.data);
     })
     .catch(error => {
+      if (error.response?.status === 403) {
+        localStorage.removeItem('token');
+        window.location.href = '/login';
+      }
       console.error("Erro:", error);
     });
   };
@@ -116,6 +123,10 @@ export default function EditSchool() {
       });
     })
     .catch(error => {
+      if (error.response?.status === 403) {
+        localStorage.removeItem('token');
+        window.location.href = '/login';
+      }
       console.error("Erro:", error);
     });
   };

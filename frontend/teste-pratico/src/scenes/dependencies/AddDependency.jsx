@@ -48,6 +48,10 @@ export default function AddDependency() {
       });
     })
     .catch(error => {
+      if (error.response?.status === 403) {
+        localStorage.removeItem('token');
+        window.location.href = '/login';
+      }
       console.error("Erro:", error);
     });
 

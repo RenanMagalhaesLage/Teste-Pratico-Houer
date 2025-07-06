@@ -53,12 +53,15 @@ export default function ViewSchool() {
       }
     })
     .then(response => {
-      //console.log("Schools:", response.data);
       setSchool(response.data);
       setSchoolType(response.data.type);
       loadSchoolDependencies(response.data.id);
     })
     .catch(error => {
+      if (error.response?.status === 403) {
+        localStorage.removeItem('token');
+        window.location.href = '/login';
+      }
       console.error("Erro:", error);
     });
   };
@@ -77,6 +80,10 @@ export default function ViewSchool() {
       setSchoolDependencies(response.data);
     })
     .catch(error => {
+      if (error.response?.status === 403) {
+        localStorage.removeItem('token');
+        window.location.href = '/login';
+      }
       console.error("Erro:", error);
     });
   };

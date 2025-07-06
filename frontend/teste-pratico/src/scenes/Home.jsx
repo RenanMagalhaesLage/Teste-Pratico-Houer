@@ -22,10 +22,13 @@ export default function Home() {
       }
     })
     .then(response => {
-      //console.log("Schools:", response.data);
       setSchools(response.data);
     })
     .catch(error => {
+      if (error.response?.status === 403) {
+        localStorage.removeItem('token');
+        window.location.href = '/login';
+      }
       console.error("Erro:", error);
     });
   };

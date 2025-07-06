@@ -63,6 +63,10 @@ export default function Import() {
 
       setSuccess('Upload do arquivo CSV realizado com sucesso!');
     } catch (err) {
+      if (err.response?.status === 403) {
+        localStorage.removeItem('token');
+        window.location.href = '/login';
+      }
       setError('Erro ao enviar o arquivo.');
       console.error(err);
     } finally {
